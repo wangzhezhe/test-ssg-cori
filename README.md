@@ -1,6 +1,6 @@
 # Building
 
-Setup spack and sds-repo, then from this directory:
+Setup spack and sds-repo, clone this repository and `cd` in it, then:
 
 ```
 spack env create ssg-test spack.yaml
