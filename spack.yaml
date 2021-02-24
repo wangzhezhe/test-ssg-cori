@@ -1,6 +1,6 @@
 spack:
   specs:
-  - mochi-ssg
+  - mochi-ssg@master
   - mochi-thallium
   - rdma-credentials
   - cmake
@@ -154,7 +154,7 @@ spack:
         modules:
         - cray-hdf5/1.10.5.2
     libfabric:
-      variants: fabrics=gni
+      variants: fabrics=rxm,sockets,tcp,gni
       version: []
       target: []
       compiler: []
@@ -192,9 +192,9 @@ spack:
       compiler: []
       providers: {}
       externals:
-      - spec: cray-mpich@7.7.6 arch=cray-cnl7-mic_knl
+      - spec: cray-mpich@7.7.10 arch=cray-cnl7-mic_knl
         modules:
-        - cray-mpich/7.7.6
+        - cray-mpich/7.7.10
     ncurses:
       buildable: false
       version: []
