@@ -1,9 +1,9 @@
 spack:
   specs:
-  - mochi-ssg@master
-  - mochi-thallium
-  - rdma-credentials
   - cmake
+  - mochi-ssg@master %gcc@9.3.0
+  - mochi-thallium %gcc@9.3.0
+  - rdma-credentials
   concretization: together
   compilers:
   - compiler:
@@ -30,7 +30,7 @@ spack:
       compiler:
       - gcc@9.3.0
       target:
-      - mic_knl
+      - any
       version: []
       buildable: true
     autoconf:
@@ -76,7 +76,7 @@ spack:
       compiler: []
       providers: {}
       externals:
-      - spec: boost@1.70.0 arch=cray-cnl7-mic_knl
+      - spec: boost@1.70.0
         modules:
         - boost/1.70.0
     bzip2:
@@ -150,7 +150,7 @@ spack:
       compiler: []
       providers: {}
       externals:
-      - spec: hdf5@1.10.5.2 arch=cray-cnl7-mic_knl
+      - spec: hdf5@1.10.5.2
         modules:
         - cray-hdf5/1.10.5.2
     libfabric:
@@ -192,7 +192,7 @@ spack:
       compiler: []
       providers: {}
       externals:
-      - spec: cray-mpich@7.7.10 arch=cray-cnl7-mic_knl
+      - spec: cray-mpich@7.7.10
         modules:
         - cray-mpich/7.7.10
     ncurses:
@@ -238,7 +238,7 @@ spack:
       compiler: []
       providers: {}
       externals:
-      - spec: rdma-credentials@1.2.25 arch=cray-cnl7-mic_knl
+      - spec: rdma-credentials@1.2.25
         modules:
         - rdma-credentials/1.2.25-7.0.1.1_5.17__g86c1dd8.ari
     tar:

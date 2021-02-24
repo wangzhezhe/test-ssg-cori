@@ -34,16 +34,16 @@ int main(int argc, char** argv) {
     hg_init_info hii;
     memset(&hii, 0, sizeof(hii));
     std::string drc_cookie_str = std::to_string(drc_cookie);
-    std::cerr << "DRC cookie = " << drc_cookie_str << std::endl;
+//    std::cerr << "DRC cookie = " << drc_cookie_str << std::endl;
     hii.na_init_info.auth_key = drc_cookie_str.c_str();
 
-    std::cerr << "Creating engine" << std::endl;
+//    std::cerr << "Creating engine" << std::endl;
     engine = tl::engine("ofi+gni", THALLIUM_SERVER_MODE, true, 2, &hii);
 
-    std::cerr << "Setting up SSG" << std::endl;
+//    std::cerr << "Setting up SSG" << std::endl;
     setup_ssg_group();
 
-    std::cerr << "Server running" << std::endl;
+//    std::cerr << "Server running" << std::endl;
     engine.wait_for_finalize();
 
     MPI_Finalize();
