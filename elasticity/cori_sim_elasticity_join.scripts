@@ -1,0 +1,55 @@
+#!/bin/bash
+#SBATCH --qos=debug
+#SBATCH --nodes=4
+#SBATCH --tasks-per-node=32
+#SBATCH --time=5:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+
+ulimit -c unlimited
+
+export BUILDDIR=/global/homes/z/zw241/cworkspace/src/test-ssg-cori/elasticity/build
+
+cd $BUILDDIR
+
+# key envs
+SSGFILE=ssgfile
+PROTOCOL=gni
+
+CLIENTNODE=2
+CLIENTNUM=16
+
+# rm log for last testing
+rm gsclient_simelasticity*.log
+rm $SSGFILE
+
+
+# 512*2/64=16
+srun -C haswell -N $CLIENTNODE -l -n $CLIENTNUM -c 4 --cpu_bind=cores --time=10:00 ./dynamic-sim \
+              -p 500 \
+              -a gni \
+              -s $SSGFILE \
+              -v trace \
+              -t 1 &> gsclient_simelasticity.log &
+
+sleep 10
+
+# join the new sim processes
+
+srun -C haswell -N 1 -l -n 2 -c 4 --cpu_bind=cores --time=10:00 ./dynamic-sim \
+              -p 500 \
+              -a gni \
+              -s $SSGFILE \
+              -v trace \
+              -t 1 -j &> gsclient_simelasticity_add1.log &
+
+sleep 10
+
+srun -C haswell -N 1 -l -n 2 -c 4 --cpu_bind=cores --time=10:00 ./dynamic-sim \
+              -p 500 \
+              -a gni \
+              -s $SSGFILE \
+              -v trace \
+              -t 1 -j &> gsclient_simelasticity_add2.log &
+
+wait

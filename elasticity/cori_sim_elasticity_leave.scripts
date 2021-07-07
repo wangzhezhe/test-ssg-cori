@@ -1,0 +1,35 @@
+#!/bin/bash
+#SBATCH --qos=debug
+#SBATCH --nodes=2
+#SBATCH --tasks-per-node=32
+#SBATCH --time=5:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+
+ulimit -c unlimited
+
+export BUILDDIR=/global/homes/z/zw241/cworkspace/src/test-ssg-cori/elasticity/build
+
+cd $BUILDDIR
+
+# key envs
+SSGFILE=ssgfile
+PROTOCOL=gni
+
+CLIENTNODE=2
+CLIENTNUM=3
+
+# rm log for last testing
+rm gsclient_simelasticity_leave*.log
+rm $SSGFILE
+
+
+# 512*2/64=16
+srun -C haswell -N $CLIENTNODE -l -n $CLIENTNUM -c 4 --cpu_bind=cores --time=10:00 ./dynamic-sim-leave \
+              -p 500 \
+              -a gni \
+              -s $SSGFILE \
+              -v trace \
+              -t 4 -i 5&> gsclient_simelasticity_leave.log &
+
+wait
